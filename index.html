@@ -8,34 +8,66 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
-    :root { --primary: #000; --bg: #f8f9fa; }
+    :root { 
+      --primary: #6f42c1; /* Morado LIFELI */
+      --primary-dark: #59359a; 
+      --gold: #FFD700; 
+      --bg: #f8f9fa; 
+    }
     body { font-family: 'Poppins', sans-serif; background: var(--bg); padding-top: 90px; margin: 0; }
     
     /* Navbar Responsivo */
-    .navbar-pro { background: white; height: 85px; position: fixed; top: 0; width: 100%; z-index: 2000; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #eee; }
-    .brand-name { font-weight: 700; font-size: 1.4rem; margin: 0; line-height: 1; }
-    .brand-slogan { font-size: 0.7rem; color: #888; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+    .navbar-pro { background: white; height: 85px; position: fixed; top: 0; width: 100%; z-index: 2000; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; border-bottom: 1px solid #eee; }
+    .brand-container { display: flex; align-items: center; gap: 8px; }
+    .brand-name { font-weight: 700; font-size: 1.2rem; margin: 0; line-height: 1; color: #000; text-decoration: none; }
+    .brand-slogan { font-size: 0.6rem; color: #888; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Botones de Cabecera */
+    .nav-buttons { display: flex; align-items: center; gap: 8px; }
+    .btn-vip { background: var(--gold); border: none; color: #000; font-weight: 700; font-size: 0.75rem; border-radius: 50px; padding: 8px 15px; display: flex; align-items: center; text-decoration: none; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .btn-vip:hover { transform: scale(1.05); background: #f1c40f; color: #000; }
+    
+    .btn-cart { background: var(--primary); color: white; border: none; height: 36px; display: flex; align-items: center; border-radius: 50px; padding: 0 15px; font-weight: 700; transition: 0.3s; }
+    .btn-cart:hover { background: var(--primary-dark); color: white; }
 
     /* Buscador */
-    .search-bar { display: none; position: absolute; top: 85px; left: 0; width: 100%; background: white; padding: 15px; z-index: 1900; border-bottom: 2px solid #000; }
-    .search-bar.active { display: block; }
+    .search-bar { display: none; position: absolute; top: 85px; left: 0; width: 100%; background: white; padding: 15px; z-index: 1900; border-bottom: 2px solid var(--primary); box-shadow: 0 10px 15px rgba(0,0,0,0.05); }
+    .search-bar.active { display: block; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* Categorías Scrollable */
+    /* Categorías */
     .tabs-sticky { background: white; overflow-x: auto; white-space: nowrap; padding: 12px; position: sticky; top: 85px; z-index: 1800; border-bottom: 1px solid #eee; }
     .tabs-sticky::-webkit-scrollbar { display: none; }
-    .tab-btn { display: inline-block; padding: 8px 20px; margin-right: 10px; border-radius: 50px; background: #f0f0f0; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
-    .tab-btn.active { background: #000; color: white; }
+    .tab-btn { display: inline-block; padding: 7px 18px; margin-right: 8px; border-radius: 50px; background: #f0f0f0; border: none; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
+    .tab-btn.active { background: var(--primary); color: white; }
 
-    /* Grid que no se descuadra: 2 columnas en movil, 4 en PC */
-    .product-card { border: none; border-radius: 20px; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%; padding: 12px; display: flex; flex-direction: column; }
-    .img-box { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; overflow: hidden; }
+    /* Tarjetas de Producto */
+    .product-card { border: none; border-radius: 18px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.06); height: 100%; padding: 12px; display: flex; flex-direction: column; transition: 0.3s; }
+    .product-card:hover { transform: translateY(-5px); }
+    .img-box { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; overflow: hidden; border-radius: 12px; }
     .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .prod-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 5px; height: 2.4em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+    /* Botón Añadir Morado */
+    .btn-add { background: var(--primary); color: white; border: none; border-radius: 50px; width: 100%; padding: 8px 0; font-weight: 700; font-size: 0.85rem; transition: 0.3s; margin-top: auto; }
+    .btn-add:hover { background: var(--primary-dark); transform: scale(1.02); }
 
     /* Carrito lateral */
     .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background: white; z-index: 3000; transition: 0.4s; box-shadow: -10px 0 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
     .drawer.open { right: 0; }
     .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2500; display: none; }
     .overlay.active { display: block; }
+    
+    .qty-ctrl { display: flex; align-items: center; background: #f4f4f4; border-radius: 50px; padding: 3px 8px; gap: 8px; }
+    .qty-btn { border: none; background: none; font-weight: bold; font-size: 1rem; cursor: pointer; padding: 0 5px; color: var(--primary); }
+
+    /* Ajustes para móviles */
+    @media (max-width: 576px) {
+      .navbar-pro { padding: 0 10px; }
+      .brand-slogan { display: none; }
+      .btn-vip span { display: none; }
+      .btn-vip { padding: 8px 12px; }
+    }
   </style>
 </head>
 <body>
@@ -44,22 +76,31 @@
 
 <nav class="navbar-pro shadow-sm">
   <div class="d-flex align-items-center">
-    <button class="btn fs-3 border-0 p-0 me-3" onclick="toggleSearch()"><i class="bi bi-search"></i></button>
-    <div id="logo-container" class="d-flex align-items-center">
+    <button class="btn fs-3 border-0 p-0 me-2 me-md-3" onclick="toggleSearch()"><i class="bi bi-search"></i></button>
+    <div class="brand-container">
         <div id="logo-img"></div>
-        <div>
-            <h1 class="brand-name">LIFELI</h1>
+        <div class="brand-text">
+            <a href="#" class="brand-name text-decoration-none">LIFELI</a>
             <p class="brand-slogan">Siempre Joven</p>
         </div>
     </div>
   </div>
-  <button class="btn btn-dark rounded-pill px-3 fw-bold" onclick="toggleCart()">
-    <i class="bi bi-cart3"></i> <span id="badge" class="badge bg-danger ms-1">0</span>
-  </button>
+
+  <div class="nav-buttons">
+    <a href="https://chat.whatsapp.com/Ja0aQCKAR2F8V2F1cvNX1M" target="_blank" class="btn-vip">
+      <i class="bi bi-star-fill me-1"></i> <span>GRUPO VIP</span>
+    </a>
+    <button class="btn-cart shadow-sm" onclick="toggleCart()">
+      <i class="bi bi-cart3"></i> <span id="badge" class="badge bg-white text-dark ms-1 rounded-circle" style="font-size: 0.7rem;">0</span>
+    </button>
+  </div>
 </nav>
 
 <div class="search-bar shadow-sm" id="search-box">
-  <input type="text" id="input-search" class="form-control rounded-pill" placeholder="Buscar producto..." onkeyup="buscar()">
+  <div class="input-group">
+    <span class="input-group-text bg-transparent border-0"><i class="bi bi-search"></i></span>
+    <input type="text" id="input-search" class="form-control border-0 shadow-none" placeholder="Buscar en LIFELI..." onkeyup="buscar()">
+  </div>
 </div>
 
 <div class="tabs-sticky shadow-sm" id="tabs">
@@ -67,9 +108,12 @@
 </div>
 
 <div class="container mt-4 pb-5">
-  <div id="banner-box" class="mb-4"></div>
+  <div id="banner-box" class="mb-4 text-center"></div>
   <div id="grid" class="row row-cols-2 row-cols-md-4 g-3">
-    <div class="text-center w-100 py-5"><div class="spinner-border text-dark"></div><p>Cargando LIFELI...</p></div>
+    <div class="text-center w-100 py-5">
+      <div class="spinner-border text-primary mb-2"></div>
+      <p class="text-muted">Abriendo catálogo...</p>
+    </div>
   </div>
 </div>
 
@@ -80,16 +124,21 @@
   </div>
   <div id="cart-list" class="p-4 flex-grow-1 overflow-auto"></div>
   <div class="p-4 border-top bg-light">
-    <div class="d-flex justify-content-between mb-3 fw-bold fs-5">
-      <span>Total:</span><span>S/ <span id="total">0.00</span></span>
+    <div class="d-flex justify-content-between mb-3 fw-bold fs-5 px-1">
+      <span>Total:</span><span class="text-dark">S/ <span id="total">0.00</span></span>
     </div>
-    <button class="btn btn-success w-100 py-3 fw-bold rounded-4 shadow" onclick="enviarPedido()">PEDIR POR WHATSAPP</button>
+    <button class="btn btn-success w-100 py-3 fw-bold rounded-4 shadow mb-2" onclick="enviarPedido()" style="background: #25d366; border:none;">
+      ENVIAR A WHATSAPP <i class="bi bi-whatsapp ms-1"></i>
+    </button>
+    <a href="https://chat.whatsapp.com/Ja0aQCKAR2F8V2F1cvNX1M" target="_blank" class="btn btn-outline-dark w-100 py-2 rounded-4 small fw-bold" style="font-size: 0.75rem;">
+       💎 ÚNETE AL GRUPO VIP
+    </a>
   </div>
 </div>
 
 <script>
-  // PEGA AQUÍ TU URL DE GOOGLE SCRIPT (LA QUE TERMINA EN /exec)
-  const URL_API = "https://script.google.com/macros/s/AKfycbyTWkgxsIjxCqN-D5o1UwgQ_G09VkLi_Xt3JG8a3_gG7YDFT_nTuP6_0jsS0-6aZSt_/exec"; 
+  // CONFIGURACIÓN: PEGA AQUÍ TU URL DE GOOGLE SCRIPT
+  const URL_API = "https://script.google.com/macros/s/AKfycby0awldcTo19ELzVfgWSVNtEzw3wTEKpK7R4EsuiT9P8p6Lld6y6NcqqvZoM5MGQH4q/exec"; 
 
   let DB = []; let CART = {}; let TEL = "";
 
@@ -97,21 +146,20 @@
     try {
       const resp = await fetch(URL_API);
       const res = await resp.json();
+      if(res.error) throw new Error(res.error);
       DB = res.productos; TEL = res.config.whatsapp;
-      
-      if(res.config.logo) document.getElementById('logo-img').innerHTML = `<img src="${fixUrl(res.config.logo)}" height="45" class="me-2">`;
-      if(res.config.banner) document.getElementById('banner-box').innerHTML = `<img src="${fixUrl(res.config.banner)}" class="w-100 rounded-4 shadow-sm">`;
-      
+      if(res.config.logo) document.getElementById('logo-img').innerHTML = `<img src="${fixUrl(res.config.logo)}" height="40" class="me-2 rounded">`;
+      if(res.config.banner) document.getElementById('banner-box').innerHTML = `<img src="${fixUrl(res.config.banner)}" class="img-fluid rounded-4 shadow-sm">`;
       const cats = [...new Set(DB.map(p => p.categoria))].filter(c => c && c !== "General");
       cats.forEach(c => document.getElementById('tabs').innerHTML += `<button class="tab-btn" onclick="filtrar('${c}', this)">${c}</button>`);
       render(DB);
     } catch(e) {
-      document.getElementById('grid').innerHTML = "Error al cargar productos.";
+      document.getElementById('grid').innerHTML = `<div class="text-center w-100 py-5 text-danger">Error al conectar con la base de datos.</div>`;
     }
   }
 
   function fixUrl(url) {
-    if(!url) return 'https://via.placeholder.com/300?text=LIFELI';
+    if(!url) return 'https://via.placeholder.com/400?text=LIFELI';
     let u = url.trim();
     if(u.includes('postimg.cc') && !u.includes('i.postimg.cc')) return u.replace('postimg.cc', 'i.postimg.cc') + '.jpg';
     if(u.includes('drive.google.com')) return u.replace('/view?usp=sharing', '').replace('file/d/', 'uc?export=view&id=');
@@ -120,13 +168,14 @@
 
   function render(lista) {
     const grid = document.getElementById('grid');
+    if(!lista.length) { grid.innerHTML = '<p class="text-center w-100 py-5">No se encontraron productos.</p>'; return; }
     grid.innerHTML = lista.map(p => `
       <div class="col">
-        <div class="product-card text-center">
-          <div class="img-box"><img src="${fixUrl(p.imagen)}" onerror="this.src='https://via.placeholder.com/300?text=LIFELI'"></div>
-          <h6 class="fw-bold text-truncate small mb-1">${p.nombre}</h6>
-          <p class="text-dark fw-bold small mb-2">S/ ${p.precio.toFixed(2)}</p>
-          <button class="btn btn-dark btn-sm rounded-pill w-100 py-1 mt-auto" onclick="add('${p.nombre}', ${p.precio})">+ Añadir</button>
+        <div class="product-card">
+          <div class="img-box"><img src="${fixUrl(p.imagen)}" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=LIFELI'"></div>
+          <h6 class="prod-title">${p.nombre}</h6>
+          <p class="text-dark fw-bold mb-2 small">S/ ${p.precio.toFixed(2)}</p>
+          <button class="btn-add" onclick="add('${p.nombre}', ${p.precio})">+ Añadir</button>
         </div>
       </div>`).join('');
   }
@@ -139,7 +188,7 @@
 
   function buscar() {
     const t = document.getElementById('input-search').value.toLowerCase().trim();
-    render(DB.filter(p => p.nombre.toLowerCase().includes(t)));
+    render(DB.filter(p => p.nombre.toLowerCase().includes(t) || p.categoria.toLowerCase().includes(t)));
   }
 
   function filtrar(c, e) {
@@ -158,25 +207,30 @@
     let total = 0; let count = 0; let html = "";
     for (let n in CART) {
       total += CART[n].p * CART[n].q; count += CART[n].q;
-      html += `<div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-        <div style="width:60%"><div class="fw-bold small">${n}</div></div>
-        <div class="d-flex align-items-center gap-2">
-          <button class="btn btn-sm btn-light border" onclick="updateQty('${n}', -1)">-</button>
-          <span class="fw-bold">${CART[n].q}</span>
-          <button class="btn btn-sm btn-light border" onclick="updateQty('${n}', 1)">+</button>
-          <button class="btn btn-sm text-danger" onclick="del('${n}')"><i class="bi bi-trash3"></i></button>
-        </div>
-      </div>`;
+      html += `
+        <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+          <div style="width:55%"><div class="fw-bold small text-truncate">${n}</div><div class="text-muted extra-small">S/ ${CART[n].p.toFixed(2)}</div></div>
+          <div class="d-flex align-items-center gap-2">
+            <div class="qty-ctrl">
+              <button class="qty-btn" onclick="updateQty('${n}', -1)">-</button>
+              <span class="small fw-bold">${CART[n].q}</span>
+              <button class="qty-btn" onclick="updateQty('${n}', 1)">+</button>
+            </div>
+            <button class="btn btn-sm text-danger border-0" onclick="del('${n}')"><i class="bi bi-trash3"></i></button>
+          </div>
+        </div>`;
     }
-    list.innerHTML = html || 'Carrito vacío';
+    list.innerHTML = html || '<div class="text-center text-muted mt-5">Carrito vacío</div>';
     document.getElementById('badge').innerText = count;
     document.getElementById('total').innerText = total.toFixed(2);
   }
 
   function enviarPedido() {
-    let m = "¡Hola LIFELI! Mi pedido es:%0A%0A";
-    for(let n in CART) m += `✅ *${CART[n].q}x* ${n}%0A`;
-    window.open(`https://wa.me/${TEL}?text=${m}%0A💰 *TOTAL: S/ ${document.getElementById('total').innerText}*`, '_blank');
+    if(!Object.keys(CART).length) return;
+    let m = "¡Hola! Mi pedido de *LIFELI* es:%0A%0A";
+    for(let n in CART) m += `✅ *${CART[n].q}x* ${n} (S/ ${(CART[n].p * CART[n].q).toFixed(2)})%0A`;
+    m += `%0A💰 *TOTAL: S/ ${document.getElementById('total').innerText}*`;
+    window.open(`https://wa.me/${TEL}?text=${m}`, '_blank');
   }
 
   cargarDatos();
