@@ -88,7 +88,7 @@
 
   <div class="nav-buttons">
     <a href="https://chat.whatsapp.com/Ja0aQCKAR2F8V2F1cvNX1M" target="_blank" class="btn-vip">
-      <i class="bi bi-star-fill me-1"></i> <span>GRUPO VIP</span>
+      <i class="bi bi-whatsapp me-1"></i> <span>GRUPO VIP</span>
     </a>
     <button class="btn-cart shadow-sm" onclick="toggleCart()">
       <i class="bi bi-cart3"></i> <span id="badge" class="badge bg-white text-dark ms-1 rounded-circle" style="font-size: 0.7rem;">0</span>
@@ -112,7 +112,7 @@
   <div id="grid" class="row row-cols-2 row-cols-md-4 g-3">
     <div class="text-center w-100 py-5">
       <div class="spinner-border text-primary mb-2"></div>
-      <p class="text-muted">Abriendo catálogo...</p>
+      <p class="text-muted">Abriendo catálogo de LIFELI...</p>
     </div>
   </div>
 </div>
@@ -130,15 +130,15 @@
     <button class="btn btn-success w-100 py-3 fw-bold rounded-4 shadow mb-2" onclick="enviarPedido()" style="background: #25d366; border:none;">
       ENVIAR A WHATSAPP <i class="bi bi-whatsapp ms-1"></i>
     </button>
-    <a href="https://chat.whatsapp.com/Ja0aQCKAR2F8V2F1cvNX1M" target="_blank" class="btn btn-outline-dark w-100 py-2 rounded-4 small fw-bold" style="font-size: 0.75rem;">
-       💎 ÚNETE AL GRUPO VIP
+    <a href="https://chat.whatsapp.com/Ja0aQCKAR2F8V2F1cvNX1M" target="_blank" class="btn btn-outline-dark w-100 py-2 rounded-4 small fw-bold d-flex align-items-center justify-content-center" style="font-size: 0.75rem;">
+       <i class="bi bi-whatsapp me-2"></i> ÚNETE AL GRUPO VIP
     </a>
   </div>
 </div>
 
 <script>
-  // CONFIGURACIÓN: PEGA AQUÍ TU URL DE GOOGLE SCRIPT
-  const URL_API = "https://script.google.com/macros/s/AKfycby0awldcTo19ELzVfgWSVNtEzw3wTEKpK7R4EsuiT9P8p6Lld6y6NcqqvZoM5MGQH4q/exec"; 
+  // CONFIGURACIÓN: PEGA AQUÍ TU URL DE GOOGLE SCRIPT (API)
+  const URL_API = "TU_URL_DE_GOOGLE_SCRIPT_AQUI"; 
 
   let DB = []; let CART = {}; let TEL = "";
 
@@ -147,14 +147,19 @@
       const resp = await fetch(URL_API);
       const res = await resp.json();
       if(res.error) throw new Error(res.error);
-      DB = res.productos; TEL = res.config.whatsapp;
+      
+      DB = res.productos; 
+      TEL = res.config.whatsapp;
+      
       if(res.config.logo) document.getElementById('logo-img').innerHTML = `<img src="${fixUrl(res.config.logo)}" height="40" class="me-2 rounded">`;
       if(res.config.banner) document.getElementById('banner-box').innerHTML = `<img src="${fixUrl(res.config.banner)}" class="img-fluid rounded-4 shadow-sm">`;
+      
       const cats = [...new Set(DB.map(p => p.categoria))].filter(c => c && c !== "General");
       cats.forEach(c => document.getElementById('tabs').innerHTML += `<button class="tab-btn" onclick="filtrar('${c}', this)">${c}</button>`);
+      
       render(DB);
     } catch(e) {
-      document.getElementById('grid').innerHTML = `<div class="text-center w-100 py-5 text-danger">Error al conectar con la base de datos.</div>`;
+      document.getElementById('grid').innerHTML = `<div class="text-center w-100 py-5 text-danger">Error al conectar con la base de datos de LIFELI.</div>`;
     }
   }
 
@@ -197,9 +202,23 @@
     render(c === 'Todos' ? DB : DB.filter(p => p.categoria === c));
   }
 
-  function toggleCart() { document.getElementById('drawer').classList.toggle('open'); document.getElementById('overlay').classList.toggle('active'); }
-  function add(n, p) { if(CART[n]) CART[n].q++; else CART[n] = { p, q: 1 }; updateUI(); }
-  function updateQty(n, d) { CART[n].q += d; if(CART[n].q <= 0) delete CART[n]; updateUI(); }
+  function toggleCart() { 
+    document.getElementById('drawer').classList.toggle('open'); 
+    document.getElementById('overlay').classList.toggle('active'); 
+  }
+
+  function add(n, p) { 
+    if(CART[n]) CART[n].q++; 
+    else CART[n] = { p, q: 1 }; 
+    updateUI(); 
+  }
+
+  function updateQty(n, d) { 
+    CART[n].q += d; 
+    if(CART[n].q <= 0) delete CART[n]; 
+    updateUI(); 
+  }
+
   function del(n) { delete CART[n]; updateUI(); }
 
   function updateUI() {
@@ -220,7 +239,7 @@
           </div>
         </div>`;
     }
-    list.innerHTML = html || '<div class="text-center text-muted mt-5">Carrito vacío</div>';
+    list.innerHTML = html || '<div class="text-center text-muted mt-5">Tu carrito está vacío</div>';
     document.getElementById('badge').innerText = count;
     document.getElementById('total').innerText = total.toFixed(2);
   }
